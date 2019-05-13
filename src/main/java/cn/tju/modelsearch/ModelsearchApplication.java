@@ -8,7 +8,7 @@ public class ModelsearchApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ModelsearchApplication.class, args);
-		//test
+		//tes
 	}
 
 }
