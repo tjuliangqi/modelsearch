@@ -35,7 +35,7 @@ public class fileUploadUtils {
                             myFileName = myFileName.substring(myFileName.lastIndexOf("\\"),myFileName.length());
                         }
                     }
-                    // 如果名称不为“”,说明该文件存在，否则说明该文件不存在
+                    // 如果名称不为“”,说明该文件存在，否则说明该文件不存
                     if (myFileName.trim() != "") {
 
                         String folderPath = ProjectConstant.SAVEFILEPATH + File.separator + folderName();
