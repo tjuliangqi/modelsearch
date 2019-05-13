@@ -65,9 +65,9 @@
 			<version>1.9.3</version>
 		</dependency>
 		<dependency>
-			<groupId>cn.tju</groupId>
+			<groupId>com.github.zengde</groupId>
 			<artifactId>lire</artifactId>
-			<version>20181217</version>
+			<version>1.0b2</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-fileupload</groupId>
