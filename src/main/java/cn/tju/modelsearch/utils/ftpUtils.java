@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.net.SocketException;
 
 
+
+
 public class ftpUtils {
 
     /**
@@ -57,7 +59,7 @@ public class ftpUtils {
                                      String ftpPassword, int ftpPort, String ftpPath,
                                      String fileName,InputStream input) {
         boolean success = false;
-        FTPClient ftpClient = null;
+        FTPClient ftpClient = new FTPClient();
         try {
             int reply;
             ftpClient = getFTPClient(ftpHost, ftpUserName, ftpPassword, ftpPort);
@@ -66,11 +68,15 @@ public class ftpUtils {
                 ftpClient.disconnect();
                 return success;
             }
+
+
             ftpClient.setControlEncoding("UTF-8"); // 中文支持
             ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
             ftpClient.enterLocalPassiveMode();
-            ftpClient.changeWorkingDirectory(ftpPath);
 
+            ftpClient.makeDirectory(ftpPath);
+
+            ftpClient.changeWorkingDirectory(ftpPath);
             ftpClient.storeFile(fileName, input);
 
             input.close();
@@ -88,5 +94,6 @@ public class ftpUtils {
         }
         return success;
     }
+
 
 }

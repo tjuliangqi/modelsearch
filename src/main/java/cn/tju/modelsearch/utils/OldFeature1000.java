@@ -1,20 +1,9 @@
 package cn.tju.modelsearch.utils;
 
+import net.semanticmetadata.lire.indexers.hashing.BitSampling;
+
 import java.io.*;
 import java.util.Arrays;
-import java.util.Base64;
-
-import javax.imageio.ImageIO;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-
-import net.semanticmetadata.lire.imageanalysis.features.GlobalFeature;
-import net.semanticmetadata.lire.imageanalysis.features.global.PHOG;
-import net.semanticmetadata.lire.indexers.hashing.BitSampling;
-import net.semanticmetadata.lire.utils.SerializationUtils;
-import org.springframework.util.ResourceUtils;
-
-import java.awt.image.BufferedImage;
 
 public class OldFeature1000 {
 

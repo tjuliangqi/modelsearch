@@ -52,12 +52,16 @@ public class fileUploadUtils {
                         file.transferTo(uploadFile);
                         myFileName = tempdirName + File.separator + myFileName;
 
+                        String tempdirName2=tempdirName.replace(ProjectConstant.SAVEFILEPATH,"")+"/";
 
-                        String ftpHost = "192.168.199.205";
+                        String ftpHost = "192.168.199.100";
                         String ftpUserName = "cc";
                         String ftpPassword = "123";
                         int ftpPort = 21;
-                        String ftpPath = "/home/cc/test/";
+                        //String ftpPath = "/home/cc/test/33/";
+                        String ftpPath = "/local_model/upload"+tempdirName2;
+                        ftpPath = ftpPath.replace("\\","/");
+                        System.out.println(ftpPath);
                         String localPath = myFileName;
                         String fileName = myFileName.substring(myFileName.lastIndexOf(File.separator)+1);
 
@@ -72,7 +76,7 @@ public class fileUploadUtils {
                         }
 
 
-                        list.add(myFileName);
+                        list.add("K:"+ftpPath+fileName);
                     }
                 }
             }
