@@ -53,13 +53,13 @@ public class fileUploadUtils {
                         myFileName = tempdirName + File.separator + myFileName;
 
 
-                        String ftpHost = "192.168.199.206";
+                        String ftpHost = "192.168.199.205";
                         String ftpUserName = "cc";
                         String ftpPassword = "123";
                         int ftpPort = 21;
                         String ftpPath = "/home/cc/test/";
-                        String localPath = tempdirName + File.separator + myFileName;
-                        String fileName = myFileName;
+                        String localPath = myFileName;
+                        String fileName = myFileName.substring(myFileName.lastIndexOf(File.separator)+1);
 
                         //上传一个文件
                         try {
