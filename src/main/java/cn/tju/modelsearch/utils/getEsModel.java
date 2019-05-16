@@ -4,6 +4,8 @@ import cn.tju.modelsearch.dao.sumMapper;
 import cn.tju.modelsearch.domain.ModelEs;
 import cn.tju.modelsearch.domain.sum;
 import cn.tju.modelsearch.service.ESClient;
+import cn.tju.modelsearch.utils.yandtran.language.Language;
+import cn.tju.modelsearch.utils.yandtran.translate.TranslateYT;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
@@ -44,13 +46,16 @@ public class getEsModel {
     private static final String HEAD = "HEAD";
     private static final String DELETE = "DELETE";
 
-    public static List<ModelEs> getModel(ESClient esClient, String type, String value, int offset, int size,sumMapper sumMapper){
+    public static List<ModelEs> getModel(ESClient esClient, String type, String value, int offset, int size,sumMapper sumMapper) throws Exception {
         QueryBuilder match ;
 
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         if (type.equals("text")){
-            Translate translate = TranslateOptions.newBuilder().setApiKey(ProjectConstant.GOOGLETRANS_KEY).build().getService();
-            String trans = translate.translate(value, Translate.TranslateOption.sourceLanguage("zh-CN"), Translate.TranslateOption.targetLanguage("en")).getTranslatedText();
+            //Translate translate = TranslateOptions.newBuilder().setApiKey(ProjectConstant.GOOGLETRANS_KEY).build().getService();
+            TranslateYT translateYT = new TranslateYT();
+            translateYT.setKey();
+            //String trans = translate.translate(value, Translate.TranslateOption.sourceLanguage("zh-CN"), Translate.TranslateOption.targetLanguage("en")).getTranslatedText();
+            String trans = translateYT.execute(value, Language.CHINESE, Language.ENGLISH);
             match = QueryBuilders.multiMatchQuery(trans,"name","description");
             searchSourceBuilder.size(ProjectConstant.PAGESIZE);
         }else if (type.equals("category")){

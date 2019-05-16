@@ -36,7 +36,12 @@ public class modelController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public RetResult<List<Model>> search(@RequestParam(name = "type") String type, @RequestParam(name = "value") String value, @RequestParam(name = "offset") int offset) {
         //调用dao层
-        List<ModelEs> list = getEsModel.getModel(esClient,type,value,offset, ProjectConstant.PAGESIZE,sumMapper);
+        List<ModelEs> list = null;
+        try {
+            list = getEsModel.getModel(esClient,type,value,offset, ProjectConstant.PAGESIZE,sumMapper);
+        } catch (Exception e) {
+            return RetResponse.makeErrRsp("没有找到相关模型");
+        }
         List<Model> resList = mix(list);
         if (type.equals("itemId")){
             String hashCode = list.get(0).getHashCode();
@@ -142,7 +147,12 @@ public class modelController {
             case 1:typestr = "recom";valuestr = value;break;
             default:return RetResponse.makeErrRsp("type error");
         }
-        List<ModelEs> list = getEsModel.getModel(esClient,typestr,valuestr,0, limit,sumMapper);
+        List<ModelEs> list = null;
+        try {
+            list = getEsModel.getModel(esClient,typestr,valuestr,0, limit,sumMapper);
+        } catch (Exception e) {
+            return RetResponse.makeErrRsp("没有找到相关模型");
+        }
         resList = mix(list);
         return RetResponse.makeOKRsp(resList);
     }
@@ -178,7 +188,12 @@ public class modelController {
     public RetResult<String> modify(modifyModel modifyModel) {
         if (modifyModel.getID() != null){
             modelMapper.updateModel(modifyModel,ProjectConstant.TABLENAME);
-            ModelEs modelEs = getEsModel.getModel(esClient,"itemId",modifyModel.getID(),0,1,sumMapper).get(0);
+            ModelEs modelEs = null;
+            try {
+                modelEs = getEsModel.getModel(esClient,"itemId",modifyModel.getID(),0,1,sumMapper).get(0);
+            } catch (Exception e) {
+                return RetResponse.makeErrRsp("没有找到相关模型");
+            }
             modelEs.setClassName(modifyModel.getType());
             modelEs.setSubClassName(modifyModel.getAttr());
             modelEs.setName(modifyModel.getName());
