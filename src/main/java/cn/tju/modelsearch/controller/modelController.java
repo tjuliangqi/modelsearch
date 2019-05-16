@@ -160,8 +160,10 @@ public class modelController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public RetResult<String> upload(HttpServletRequest httpServletRequest) throws Exception {
         List<String> list = fileUploadUtils.uploadFile(httpServletRequest);
+
         if (list != null){
             ModelSql modelSql = new ModelSql();
+            System.out.println(list.get(0));
             modelSql.setFilePath(list.get(0));
             modelSql.setID(UUID());
             modelSql.setAuthor("");
