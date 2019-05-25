@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -39,6 +42,7 @@ public class modelController {
         List<ModelEs> list = null;
         try {
             list = getEsModel.getModel(esClient,type,value,offset, ProjectConstant.PAGESIZE,sumMapper);
+
         } catch (Exception e) {
             return RetResponse.makeErrRsp("没有找到相关模型");
         }
@@ -160,11 +164,28 @@ public class modelController {
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public RetResult<String> upload(HttpServletRequest httpServletRequest) throws Exception {
         List<String> list = fileUploadUtils.uploadFile(httpServletRequest);
+        String myFileName = list.get(0);
+
+        String tempdirName3 = myFileName.replace("E:/upload","").replace("1.obj","").replace("\\","/");
+        //String ftpPath = "/home/cc/test/33/";
+        String ftpPath = "/local_model/upload"+tempdirName3;
+        String localPath = myFileName;
+        String fileName = myFileName.substring(myFileName.lastIndexOf(File.separator)+1);
+
+        //上传一个文件
+        try {
+            FileInputStream in = new FileInputStream(new File(localPath));
+            boolean test = ftpUtils.uploadFile("192.168.199.100", "cc", "123", 21, ftpPath, fileName, in);
+            System.out.println(test);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
 
         if (list != null){
             ModelSql modelSql = new ModelSql();
-            System.out.println(list.get(0));
-            modelSql.setFilePath(list.get(0));
+
+            modelSql.setFilePath("K:"+tempdirName3+fileName);
             modelSql.setID(UUID());
             modelSql.setAuthor("");
             modelSql.setImgPath("");
@@ -233,7 +254,12 @@ public class modelController {
             case 2 :tmp = "hashCode";break;
             default:break;
         }
-        int count = getEsModel.getCount(esClient,tmp,value);
+        int count = 0;
+        try {
+            count = getEsModel.getCount(esClient,tmp,value);
+        } catch (Exception e) {
+            return RetResponse.makeErrRsp("没有相关模型");
+        }
 //        System.out.println("ok");
         return RetResponse.makeOKRsp(String.valueOf(count));
     }

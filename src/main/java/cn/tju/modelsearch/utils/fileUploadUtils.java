@@ -7,8 +7,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -52,31 +50,8 @@ public class fileUploadUtils {
                         file.transferTo(uploadFile);
                         myFileName = tempdirName + File.separator + myFileName;
 
-                        String tempdirName2=tempdirName.replace(ProjectConstant.SAVEFILEPATH,"")+"/";
+                        list.add(myFileName);
 
-                        String ftpHost = "192.168.199.100";
-                        String ftpUserName = "cc";
-                        String ftpPassword = "123";
-                        int ftpPort = 21;
-                        //String ftpPath = "/home/cc/test/33/";
-                        String ftpPath = "/local_model/upload"+tempdirName2;
-                        ftpPath = ftpPath.replace("\\","/");
-                        System.out.println(ftpPath);
-                        String localPath = myFileName;
-                        String fileName = myFileName.substring(myFileName.lastIndexOf(File.separator)+1);
-
-                        //上传一个文件
-                        try {
-                            FileInputStream in = new FileInputStream(new File(localPath));
-                            boolean test = ftpUtils.uploadFile(ftpHost, ftpUserName, ftpPassword, ftpPort, ftpPath, fileName, in);
-                            System.out.println(test);
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                            System.out.println(e);
-                        }
-
-
-                        list.add("K:"+ftpPath+fileName);
                     }
                 }
             }
